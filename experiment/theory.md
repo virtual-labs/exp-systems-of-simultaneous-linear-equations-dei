@@ -1,1 +1,1 @@
-### Link your theory in here
+Linear systems of equations represent mathematical relationships between variables that can be solved using various elimination methods. Gaussian and Gauss-Jordan elimination are systematic approaches to solving linear equations by transforming the augmented matrix into reduced row echelon form, allowing for precise determination of variable values through strategic row operations.
