@@ -1,1 +1,1 @@
-### Aim of the experiment
+Systems of simultaneous linear equations using various methods such as Gaussian Elimination and Gauss Jordan methods.

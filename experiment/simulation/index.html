@@ -2,73 +2,443 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropdown Menu Example</title>
+    <title>Linear System Solver</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.24.1/plotly.min.js"></script>
     <style>
-        /* Basic styling for the page */
-        body {
-            font-family: Arial, sans-serif;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
         }
-        /* Container for the dropdown */
-        .dropdown {
-            position: relative;
-            display: inline-block;
+        
+        body {
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-        /* Styling for the dropdown button */
-        .dropbtn {
-            background-color: #4CAF50;
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #2c3e50;
+            border-radius: 8px;
+            width: 100%;
+            color: #ffffff;
+            padding: 10px;
+            max-width: 1000px;
+            grid-column: 1 / -1;
+        }
+
+        .subtitle {
+            background-color: #2c3e50;
             color: white;
-            padding: 18px;
-            font-size: 22px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .input-box, .output-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: 600px;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .equation-row {
+            display: grid;
+            grid-template-columns: repeat(5, auto);
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2c3e50;
+            color: white;
             border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 65px;
+        }
+        
+        button:hover {
+            background-color: #2c3e50;
+        }
+        
+        .output-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        #result {
+            padding: 15px;
+            background-color: #fcfcfd;
+            border-radius: 6px;
+        }
+        
+        #plot {
+            width: 100%;
+            height: 300px;
+        }
+        
+        #steps {
+            margin-top: 1px;
+        }
+        
+        .step {
+            padding: 8px;
+            margin: 2px 0;
+            background-color: #f8f9fa;
+            border-left: 3px solid #1a237e;
+        }
+        
+        .error {
+            color: #d32f2f;
+            padding: 10px;
+            background-color: #ffebee;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .examples {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fefeff;
+            border-radius: 6px;
+        }
+
+        .example-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1a237e;
+        }
+
+        .example-equation {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: white;
+            border-radius: 4px;
             cursor: pointer;
         }
-        /* Styling for the dropdown content */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-        /* Styling for the dropdown items */
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-        }
-        /* Change color of dropdown items on hover */
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-        /* Show the dropdown menu on hover */
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        /* Change the background color of the dropdown button when the dropdown content is shown */
-        .dropdown:hover .dropbtn {
-            background-color: #3e8e41;
+
+        .example-equation:hover {
+            background-color: #f0f0f0;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Linear System Solver</h1>
+        
+        <div class="input-box">
+            <div class="subtitle">Input Parameters</div>
+            
+            <div class="examples">
+                <div class="example-title">Example Equations:</div>
+                <div class="example-equation" onclick="loadExample(0)">
+                    2x + 3y = 7<br>
+                    4x - y = 1
+                </div>
+                <div class="example-equation" onclick="loadExample(1)">
+                    x + y = 4<br>
+                    x - y = 2
+                </div>
+                <div class="example-equation" onclick="loadExample(2)">
+                    3x + 2y = 12<br>
+                    -x + 4y = 8
+                </div>
+            </div>
 
-<div class="dropdown">
-    <button class="dropbtn">Experiments</button>
-    <div class="dropdown-content">
-        <a href="guessElimination.html"> Gaussian Elimination</a>
-        <a href=" Gauss Jordan"> Gauss Jordan</a>
+            <select id="method" onchange="solve()">
+                <option value="gaussian">Gaussian Elimination</option>
+                <option value="jordan">Gauss-Jordan Elimination</option>
+            </select>
+            
+            <div class="equation-row">
+                <input type="number" class="coef" step="any" placeholder="a₁">
+                <span>x +</span>
+                <input type="number" class="coef" step="any" placeholder="b₁">
+                <span>y =</span>
+                <input type="number" class="const" step="any" placeholder="c₁">
+            </div>
+            
+            <div class="equation-row">
+                <input type="number" class="coef" step="any" placeholder="a₂">
+                <span>x +</span>
+                <input type="number" class="coef" step="any" placeholder="b₂">
+                <span>y =</span>
+                <input type="number" class="const" step="any" placeholder="c₂">
+            </div>
+            
+            <div style="margin-top: auto; padding-top: 20px;">
+                <button onclick="solve()">Simulate</button>
+            </div>
+        </div>
+        
+        <div class="output-box">
+            <div class="subtitle">Results</div>
+            <div class="output-grid">
+                <div id="result"></div>
+                <div id="steps"></div>
+                <div id="plot"></div>
+            </div>
+        </div>
     </div>
-</div>
 
+    <script>
+        // Previous JavaScript code remains the same until displayResults function
+        function getInputSystem() {
+            const coefs = Array.from(document.getElementsByClassName('coef')).map(input => Number(input.value));
+            const constants = Array.from(document.getElementsByClassName('const')).map(input => Number(input.value));
+            
+            return {
+                A: [[coefs[0], coefs[1]], [coefs[2], coefs[3]]],
+                b: [constants[0], constants[1]]
+            };
+        }
+
+        function validateInput(A, b) {
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 2; j++) {
+                    if (isNaN(A[i][j])) return false;
+                }
+                if (isNaN(b[i])) return false;
+            }
+            return true;
+        }
+
+        function gaussianElimination(A, b) {
+            const n = A.length;
+            const augmented = A.map((row, i) => [...row, b[i]]);
+            const steps = [];
+            
+            // Forward elimination
+            for (let i = 0; i < n; i++) {
+                if (Math.abs(augmented[i][i]) < 1e-10) {
+                    throw new Error("Zero pivot encountered. System may have no unique solution.");
+                }
+                
+                steps.push(`Pivot element: ${augmented[i][i].toFixed(4)}`);
+                
+                for (let j = i + 1; j < n; j++) {
+                    const factor = augmented[j][i] / augmented[i][i];
+                    steps.push(`R${j+1} = R${j+1} - ${factor.toFixed(4)} × R${i+1}`);
+                    
+                    for (let k = i; k <= n; k++) {
+                        augmented[j][k] -= factor * augmented[i][k];
+                    }
+                }
+            }
+            
+            // Back substitution
+            const x = new Array(n);
+            for (let i = n - 1; i >= 0; i--) {
+                x[i] = augmented[i][n];
+                for (let j = i + 1; j < n; j++) {
+                    x[i] -= augmented[i][j] * x[j];
+                }
+                x[i] /= augmented[i][i];
+                steps.push(`x${n-i} = ${x[i].toFixed(4)}`);
+            }
+            
+            return { solution: x, steps };
+        }
+
+        function gaussJordan(A, b) {
+            const n = A.length;
+            const augmented = A.map((row, i) => [...row, b[i]]);
+            const steps = [];
+            
+            for (let i = 0; i < n; i++) {
+                if (Math.abs(augmented[i][i]) < 1e-10) {
+                    throw new Error("Zero pivot encountered. System may have no unique solution.");
+                }
+                
+                // Make diagonal element 1
+                const divisor = augmented[i][i];
+                for (let j = i; j <= n; j++) {
+                    augmented[i][j] /= divisor;
+                }
+                steps.push(`R${i+1} = R${i+1} ÷ ${divisor.toFixed(4)}`);
+                
+                // Make other elements in column 0
+                for (let j = 0; j < n; j++) {
+                    if (i !== j) {
+                        const factor = augmented[j][i];
+                        for (let k = i; k <= n; k++) {
+                            augmented[j][k] -= factor * augmented[i][k];
+                        }
+                        steps.push(`R${j+1} = R${j+1} - ${factor.toFixed(4)} × R${i+1}`);
+                    }
+                }
+            }
+            
+            return {
+                solution: [augmented[0][n], augmented[1][n]],
+                steps
+            };
+        }
+
+        // Example equations data
+        const examples = [
+            {
+                coefficients: [2, 3, 4, -1],
+                constants: [7, 1]
+            },
+            {
+                coefficients: [1, 1, 1, -1],
+                constants: [4, 2]
+            },
+            {
+                coefficients: [3, 2, -1, 4],
+                constants: [12, 8]
+            }
+        ];
+
+        function loadExample(index) {
+            const example = examples[index];
+            const coefInputs = document.getElementsByClassName('coef');
+            const constInputs = document.getElementsByClassName('const');
+            
+            for (let i = 0; i < coefInputs.length; i++) {
+                coefInputs[i].value = example.coefficients[i];
+            }
+            for (let i = 0; i < constInputs.length; i++) {
+                constInputs[i].value = example.constants[i];
+            }
+            
+            solve();
+        }
+
+        function displayResults(solution, steps) {
+            // Display solution
+            document.getElementById('result').innerHTML = `
+                <h3>Solution:</h3>
+                <p>x = ${solution[0].toFixed(4)}</p>
+                <p>y = ${solution[1].toFixed(4)}</p>
+            `;
+
+            // Display steps
+            const stepsHTML = steps.map((step, index) => 
+                `<div class="step">Step ${index + 1}: ${step}</div>`
+            ).join('');
+            
+            document.getElementById('steps').innerHTML = `
+                <h3>Solution Steps:</h3>
+                ${stepsHTML}
+            `;
+        }
+
+        function plotSystem(A, b, solution) {
+            const x = [-10, 10];
+            const y1 = x.map(xi => (b[0] - A[0][0] * xi) / A[0][1]);
+            const y2 = x.map(xi => (b[1] - A[1][0] * xi) / A[1][1]);
+
+            const data = [
+                {
+                    x: x,
+                    y: y1,
+                    name: 'Equation 1',
+                    type: 'scatter',
+                    mode: 'lines'
+                },
+                {
+                    x: x,
+                    y: y2,
+                    name: 'Equation 2',
+                    type: 'scatter',
+                    mode: 'lines'
+                },
+                {
+                    x: [solution[0]],
+                    y: [solution[1]],
+                    mode: 'markers',
+                    name: 'Solution',
+                    marker: {
+                        size: 10,
+                        color: 'red'
+                    }
+                }
+            ];
+
+            const layout = {
+                title: 'System of Equations',
+                xaxis: {
+                    title: 'x',
+                    fixedrange: true
+                },
+                yaxis: {
+                    title: 'y',
+                    fixedrange: true
+                },
+                height: 300,
+                margin: { t: 30, b: 40, l: 40, r: 40 },
+                showlegend: true
+            };
+
+            const config = {
+                displayModeBar: false,
+                responsive: true
+            };
+
+            Plotly.newPlot('plot', data, layout, config);
+        }
+
+        function solve() {
+            const { A, b } = getInputSystem();
+            const method = document.getElementById('method').value;
+            
+            if (!validateInput(A, b)) {
+                document.getElementById('result').innerHTML = '<div class="error">Please fill in all fields with valid numbers</div>';
+                return;
+            }
+            
+            try {
+                const result = method === 'gaussian' ? gaussianElimination(A, b) : gaussJordan(A, b);
+                displayResults(result.solution, result.steps);
+                plotSystem(A, b, result.solution);
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<div class="error">${error.message}</div>`;
+            }
+        }
+
+        // Initialize empty plot on page load
+        
+    </script>
 </body>
 </html>
