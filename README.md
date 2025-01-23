@@ -10,11 +10,11 @@
 
 Fill a brief description of this experiment here
 
-<b>Name of Developer | <b> Fill the name of experiment owner here 
+<b>Name of Developer | <b> Sanjay Saini 
 :--|:--|
-<b> Institute | <b>  
-<b> Email id|     <b>  
-<b> Department |  
+<b> Dayalbagh Educational Institute | <b>  
+<b> sanjay.saini@dei.ac.in|     <b>  
+<b> Department of Physics adn Computer Science |  
 
 ### Contributors List
 
