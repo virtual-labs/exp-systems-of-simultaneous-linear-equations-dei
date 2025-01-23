@@ -1,0 +1,27 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "After solving a linear system, what does the web application display?",
+      "answers": {
+        "a": "Only numerical values",
+        "b": "Solution, steps, and graphical representation",
+        "c": "Error messages",
+        "d": "Unsolved equations"
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "The red dot in the graph represents:",
+      "answers": {
+        "a": "Equation intersection",
+        "b": "ansSystem's solution pointwer2",
+        "c": "Random coordinate",
+        "d": "Calculation error"
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    }
+  ]
+}

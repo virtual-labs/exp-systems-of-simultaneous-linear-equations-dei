@@ -1,0 +1,27 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "What does a linear system of equations represent?",
+      "answers": {
+        "a": "Random mathematical relationships",
+        "b": "Equations with fixed unknown variables",
+        "c": "Connections between algebraic variables",
+        "d": "ansNonlinear mathematical modelswer4"
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Gaussian Elimination primarily involves:",
+      "answers": {
+        "a": "Adding equations randomly",
+        "b": "Systematic row reduction",
+        "c": "Multiplying equations",
+        "d": "Guessing variable values"
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    }
+  ]
+}
