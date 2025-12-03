@@ -19,5 +19,5 @@ This experiment focuses on solving systems of simultaneous linear equations usin
 
 SrNo | Name | Faculty or Student | Department | Institute | Email id  
 :--|:--|:--|:--|:--|:--|  
-1 | Aditya Vardhan | Student | Physics and Computer Sci. | Dayalbagh Educational Institute | vardhana3098@gmail.com  
-2 | Mohit Yadav | Student | Physics and Computer Sci. | Dayalbagh Educational Institute | mohityadavdei@yahoo.com  
+1 | Aditya Vardhan | Student | Physics and Computer Sci. | Dayalbagh Educational Institute | aditya202202@dei.ac.in
+2 | Mohit Yadav | Student | Physics and Computer Sci. | Dayalbagh Educational Institute | mohit173333@dei.ac.in
