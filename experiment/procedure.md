@@ -1,16 +1,26 @@
-Step 1: Open the Linear System Solver web page
-Step 2: Locate the input fields for coefficients and constants
-Step 3: Enter coefficients for x and y in the first two input rows
+### Procedure
 
-First input row: a₁x + b₁y = c₁
-Second input row: a₂x + b₂y = c₂
+1. **Select the Solving Method**
+   - Choose either **Gaussian Elimination** or **Gauss-Jordan Elimination** from the dropdown menu.
 
+2. **Enter the Linear Equations**
+   - Input the coefficients of the linear system in the form:
+     - a₁x + b₁y = c₁
+     - a₂x + b₂y = c₂
+   - Alternatively, select one of the example equations provided in the interface.
 
-Step 4: Select desired solution method from dropdown:
+3. **Initialize System Parameters**
+   - Ensure all coefficient fields are correctly filled.
+   - Check if the equations form a valid linear system (non-zero determinant for unique solution).
 
-Gaussian Elimination
-Gauss-Jordan Elimination
+4. **Run the Simulation**
+   - Click on the **Simulate** button to perform matrix operations.
 
+5. **View Output**
+   - Check the solution results displayed in the result panel.
+   - Observe the computed values of variables (x and y).
+   - If available, review steps or graphical representation showing equation intersection point.
 
-Step 5: Click "Simulate" button
-Step 6: Review results displayed in the output section
+6. **Analyze the Result**
+   - Verify correctness by substituting the solution back into the original equations.
+   - Repeat using the other elimination method to compare solution approach and clarity.

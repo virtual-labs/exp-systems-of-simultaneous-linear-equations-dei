@@ -7,10 +7,9 @@
         "a": "Random mathematical relationships",
         "b": "Equations with fixed unknown variables",
         "c": "Connections between algebraic variables",
-        "d": "ansNonlinear mathematical modelswer4"
+        "d": "Nonlinear mathematical models"
       },
-      "correctAnswer": "c",
-      "difficulty": "beginner"
+      "correctAnswer": "c"
     },
     {
       "question": "Gaussian Elimination primarily involves:",
@@ -20,8 +19,87 @@
         "c": "Multiplying equations",
         "d": "Guessing variable values"
       },
-      "correctAnswer": "b",
-      "difficulty": "beginner"
+      "correctAnswer": "b"
+    },
+    {
+      "question": "Gauss-Jordan method produces solutions by converting the matrix into:",
+      "answers": {
+        "a": "Lower triangular form",
+        "b": "Reduced row echelon form",
+        "c": "Diagonal-only matrix",
+        "d": "Random matrix structure"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "A consistent linear system has:",
+      "answers": {
+        "a": "At least one solution",
+        "b": "No solution",
+        "c": "Undefined solutions",
+        "d": "Always infinite solutions"
+      },
+      "correctAnswer": "a"
+    },
+    {
+      "question": "Which matrix operation is allowed during row reduction?",
+      "answers": {
+        "a": "Multiply a row by a non-zero constant",
+        "b": "Add random noise to values",
+        "c": "Delete a row permanently",
+        "d": "Rearrange elements freely"
+      },
+      "correctAnswer": "a"
+    },
+    {
+      "question": "An augmented matrix represents:",
+      "answers": {
+        "a": "Only coefficients",
+        "b": "Only constant values",
+        "c": "Both coefficients and constants",
+        "d": "Only the variables"
+      },
+      "correctAnswer": "c"
+    },
+    {
+      "question": "If two equations represent the same line, the system has:",
+      "answers": {
+        "a": "No solution",
+        "b": "Exactly one solution",
+        "c": "Infinite solutions",
+        "d": "A complex number solution"
+      },
+      "correctAnswer": "c"
+    },
+    {
+      "question": "Row operations do NOT include:",
+      "answers": {
+        "a": "Swap two rows",
+        "b": "Multiply a row by zero",
+        "c": "Add a multiple of one row to another",
+        "d": "Multiply a row by a non-zero number"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "Graphical intersection of two lines in 2D gives:",
+      "answers": {
+        "a": "Solution to the system",
+        "b": "Length of vector",
+        "c": "Matrix determinant",
+        "d": "Derivative of equations"
+      },
+      "correctAnswer": "a"
+    },
+    {
+      "question": "Gaussian Elimination is mostly used for:",
+      "answers": {
+        "a": "Finding slopes of lines",
+        "b": "Solving systems of linear equations",
+        "c": "Calculating integrals",
+        "d": "Performing statistical analysis"
+      },
+      "correctAnswer": "b"
     }
   ]
 }
