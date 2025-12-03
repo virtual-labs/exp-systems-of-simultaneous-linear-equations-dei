@@ -9,19 +9,97 @@
         "c": "Error messages",
         "d": "Unsolved equations"
       },
-      "correctAnswer": "b",
-      "difficulty": "beginner"
+      "correctAnswer": "b"
     },
     {
       "question": "The red dot in the graph represents:",
       "answers": {
         "a": "Equation intersection",
-        "b": "ansSystem's solution pointwer2",
+        "b": "System's solution point",
         "c": "Random coordinate",
         "d": "Calculation error"
       },
-      "correctAnswer": "b",
-      "difficulty": "beginner"
+      "correctAnswer": "b"
+    },
+    {
+      "question": "Gaussian Elimination converts the matrix into:",
+      "answers": {
+        "a": "Diagonal form",
+        "b": "Upper triangular form",
+        "c": "Zero matrix",
+        "d": "Random form"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "Gauss-Jordan method further simplifies the matrix to:",
+      "answers": {
+        "a": "Row echelon form",
+        "b": "Reduced row echelon form",
+        "c": "Determinant form",
+        "d": "Identity of unknown size"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "A system of linear equations can be represented in:",
+      "answers": {
+        "a": "Augmented matrix form",
+        "b": "3D pie chart",
+        "c": "Only text format",
+        "d": "Binary data only"
+      },
+      "correctAnswer": "a"
+    },
+    {
+      "question": "If two lines intersect at one point, the system has:",
+      "answers": {
+        "a": "Infinite solutions",
+        "b": "No solution",
+        "c": "Exactly one solution",
+        "d": "Imaginary solution"
+      },
+      "correctAnswer": "c"
+    },
+    {
+      "question": "Which method eliminates variables step-by-step using row operations?",
+      "answers": {
+        "a": "Gaussian Elimination",
+        "b": "Integration",
+        "c": "Differentiation",
+        "d": "Histogram Equalization"
+      },
+      "correctAnswer": "a"
+    },
+    {
+      "question": "Which is an example of a row operation?",
+      "answers": {
+        "a": "Multiply a row by a non-zero constant",
+        "b": "Change the color of a row",
+        "c": "Remove an entire row",
+        "d": "Randomly rearrange entries"
+      },
+      "correctAnswer": "a"
+    },
+    {
+      "question": "If the equations are parallel and distinct, the system is:",
+      "answers": {
+        "a": "Consistent and independent",
+        "b": "Consistent and dependent",
+        "c": "Inconsistent",
+        "d": "Always solvable"
+      },
+      "correctAnswer": "c"
+    },
+    {
+      "question": "The graphical representation in the simulator helps students:",
+      "answers": {
+        "a": "Visualize how equations intersect",
+        "b": "Change matrix dimensions",
+        "c": "Generate random graphs",
+        "d": "Display sound waves"
+      },
+      "correctAnswer": "a"
     }
   ]
 }
