@@ -4,6 +4,7 @@
 A system of simultaneous linear equations consists of two or more linear equations involving multiple unknown variables. Such systems arise frequently in engineering, physics, economics, and computer science. A system of linear equations can be expressed in matrix form, which provides a compact and systematic way to analyze and solve the equations.
 
 A general system of linear equations can be written as:
+
 <img width="100" height="30" alt="image" src="https://github.com/user-attachments/assets/d4d62e03-b3ab-4f52-bc84-e07fcdd938e0" />
 
 where 𝐴 is the coefficient matrix, 𝑋 is the column vector of unknowns, and 𝐵 is the constant vector. To solve the system, the augmented matrix [𝐴∣𝐵] is commonly used.
