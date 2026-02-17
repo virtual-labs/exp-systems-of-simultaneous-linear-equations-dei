@@ -2,27 +2,27 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "After solving a linear system, what does the web application display?",
+      "question": "After solving a linear system using Gaussian Elimination, the final step involves:",
       "answers": {
-        "a": "Only numerical values",
-        "b": "Solution, steps, and graphical representation",
-        "c": "Error messages",
-        "d": "Unsolved equations"
+        "a": "Forward substitution",
+        "b": "Back substitution",
+        "c": "Integration",
+        "d": "Matrix transposition"
       },
       "correctAnswer": "b"
     },
     {
       "question": "The red dot in the graph represents:",
       "answers": {
-        "a": "Equation intersection",
-        "b": "System's solution point",
+        "a": "Equation slope",
+        "b": "System's solution point (intersection)",
         "c": "Random coordinate",
         "d": "Calculation error"
       },
       "correctAnswer": "b"
     },
     {
-      "question": "Gaussian Elimination converts the matrix into:",
+      "question": "Gaussian Elimination converts the coefficient matrix into:",
       "answers": {
         "a": "Diagonal form",
         "b": "Upper triangular form",
@@ -32,69 +32,69 @@
       "correctAnswer": "b"
     },
     {
-      "question": "Gauss-Jordan method further simplifies the matrix to:",
+      "question": "Gauss-Jordan method differs because it transforms the matrix into:",
       "answers": {
-        "a": "Row echelon form",
+        "a": "Row echelon form only",
         "b": "Reduced row echelon form",
         "c": "Determinant form",
-        "d": "Identity of unknown size"
+        "d": "Lower triangular form"
       },
       "correctAnswer": "b"
     },
     {
-      "question": "A system of linear equations can be represented in:",
+      "question": "If the determinant of the coefficient matrix is non-zero, the system has:",
       "answers": {
-        "a": "Augmented matrix form",
-        "b": "3D pie chart",
-        "c": "Only text format",
-        "d": "Binary data only"
+        "a": "No solution",
+        "b": "Exactly one unique solution",
+        "c": "Infinite solutions",
+        "d": "Complex-only solution"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "Partial pivoting improves numerical computation by:",
+      "answers": {
+        "a": "Reducing round-off errors",
+        "b": "Increasing computation time",
+        "c": "Removing equations",
+        "d": "Changing determinant arbitrarily"
       },
       "correctAnswer": "a"
     },
     {
-      "question": "If two lines intersect at one point, the system has:",
+      "question": "If the rank of the coefficient matrix is less than the rank of the augmented matrix, the system is:",
       "answers": {
-        "a": "Infinite solutions",
-        "b": "No solution",
-        "c": "Exactly one solution",
-        "d": "Imaginary solution"
-      },
-      "correctAnswer": "c"
-    },
-    {
-      "question": "Which method eliminates variables step-by-step using row operations?",
-      "answers": {
-        "a": "Gaussian Elimination",
-        "b": "Integration",
-        "c": "Differentiation",
-        "d": "Histogram Equalization"
-      },
-      "correctAnswer": "a"
-    },
-    {
-      "question": "Which is an example of a row operation?",
-      "answers": {
-        "a": "Multiply a row by a non-zero constant",
-        "b": "Change the color of a row",
-        "c": "Remove an entire row",
-        "d": "Randomly rearrange entries"
-      },
-      "correctAnswer": "a"
-    },
-    {
-      "question": "If the equations are parallel and distinct, the system is:",
-      "answers": {
-        "a": "Consistent and independent",
-        "b": "Consistent and dependent",
+        "a": "Consistent",
+        "b": "Independent",
         "c": "Inconsistent",
         "d": "Always solvable"
       },
       "correctAnswer": "c"
     },
     {
+      "question": "The computational complexity of solving an n×n system using Gaussian Elimination is approximately:",
+      "answers": {
+        "a": "O(n)",
+        "b": "O(n²)",
+        "c": "O(n³)",
+        "d": "O(log n)"
+      },
+      "correctAnswer": "c"
+    },
+    {
+      "question": "An ill-conditioned linear system is characterized by:",
+      "answers": {
+        "a": "Stable and accurate solutions",
+        "b": "Large sensitivity to small input changes",
+        "c": "Always zero determinant",
+        "d": "Infinite solutions only"
+      },
+      "correctAnswer": "b"
+    },
+    {
       "question": "The graphical representation in the simulator helps students:",
       "answers": {
-        "a": "Visualize how equations intersect",
+        "a": "Visualize geometric interpretation of solutions",
         "b": "Change matrix dimensions",
         "c": "Generate random graphs",
         "d": "Display sound waves"

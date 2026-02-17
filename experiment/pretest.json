@@ -6,98 +6,98 @@
       "answers": {
         "a": "Random mathematical relationships",
         "b": "Equations with fixed unknown variables",
-        "c": "Connections between algebraic variables",
+        "c": "Connections between algebraic variables forming a linear structure",
         "d": "Nonlinear mathematical models"
       },
       "correctAnswer": "c"
     },
     {
-      "question": "Gaussian Elimination primarily involves:",
+      "question": "Gaussian Elimination transforms the coefficient matrix into:",
       "answers": {
-        "a": "Adding equations randomly",
-        "b": "Systematic row reduction",
-        "c": "Multiplying equations",
-        "d": "Guessing variable values"
+        "a": "Upper triangular form",
+        "b": "Lower triangular form",
+        "c": "Identity matrix directly",
+        "d": "Diagonal-only matrix"
+      },
+      "correctAnswer": "a"
+    },
+    {
+      "question": "Gauss-Jordan method differs from Gaussian Elimination because it:",
+      "answers": {
+        "a": "Stops at triangular form",
+        "b": "Eliminates entries both above and below pivots",
+        "c": "Uses integration",
+        "d": "Requires determinant calculation first"
       },
       "correctAnswer": "b"
     },
     {
-      "question": "Gauss-Jordan method produces solutions by converting the matrix into:",
+      "question": "Partial pivoting is used to:",
       "answers": {
-        "a": "Lower triangular form",
-        "b": "Reduced row echelon form",
-        "c": "Diagonal-only matrix",
+        "a": "Increase rounding errors",
+        "b": "Avoid division by very small numbers and improve stability",
+        "c": "Reduce number of variables",
+        "d": "Change determinant value arbitrarily"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "The computational complexity of Gaussian Elimination for an n×n system is approximately:",
+      "answers": {
+        "a": "O(n)",
+        "b": "O(n²)",
+        "c": "O(n³)",
+        "d": "O(log n)"
+      },
+      "correctAnswer": "c"
+    },
+    {
+      "question": "If the determinant of the coefficient matrix is zero, the system:",
+      "answers": {
+        "a": "Has exactly one solution",
+        "b": "May have no solution or infinitely many solutions",
+        "c": "Always has a unique solution",
+        "d": "Becomes nonlinear"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "In Gaussian Elimination, after obtaining upper triangular form, solutions are obtained using:",
+      "answers": {
+        "a": "Forward substitution",
+        "b": "Back substitution",
+        "c": "Numerical integration",
+        "d": "Matrix inversion only"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "An ill-conditioned system is characterized by:",
+      "answers": {
+        "a": "Very small changes in input causing large changes in solution",
+        "b": "Perfect numerical stability",
+        "c": "Always having infinite solutions",
+        "d": "Zero determinant only"
+      },
+      "correctAnswer": "a"
+    },
+    {
+      "question": "The rank of a matrix helps determine:",
+      "answers": {
+        "a": "Graph color",
+        "b": "Consistency of the system",
+        "c": "Step size",
+        "d": "Derivative order"
+      },
+      "correctAnswer": "b"
+    },
+    {
+      "question": "Gauss-Jordan method results in:",
+      "answers": {
+        "a": "Row echelon form only",
+        "b": "Reduced row echelon form (identity matrix for coefficient part)",
+        "c": "Lower triangular matrix",
         "d": "Random matrix structure"
-      },
-      "correctAnswer": "b"
-    },
-    {
-      "question": "A consistent linear system has:",
-      "answers": {
-        "a": "At least one solution",
-        "b": "No solution",
-        "c": "Undefined solutions",
-        "d": "Always infinite solutions"
-      },
-      "correctAnswer": "a"
-    },
-    {
-      "question": "Which matrix operation is allowed during row reduction?",
-      "answers": {
-        "a": "Multiply a row by a non-zero constant",
-        "b": "Add random noise to values",
-        "c": "Delete a row permanently",
-        "d": "Rearrange elements freely"
-      },
-      "correctAnswer": "a"
-    },
-    {
-      "question": "An augmented matrix represents:",
-      "answers": {
-        "a": "Only coefficients",
-        "b": "Only constant values",
-        "c": "Both coefficients and constants",
-        "d": "Only the variables"
-      },
-      "correctAnswer": "c"
-    },
-    {
-      "question": "If two equations represent the same line, the system has:",
-      "answers": {
-        "a": "No solution",
-        "b": "Exactly one solution",
-        "c": "Infinite solutions",
-        "d": "A complex number solution"
-      },
-      "correctAnswer": "c"
-    },
-    {
-      "question": "Row operations do NOT include:",
-      "answers": {
-        "a": "Swap two rows",
-        "b": "Multiply a row by zero",
-        "c": "Add a multiple of one row to another",
-        "d": "Multiply a row by a non-zero number"
-      },
-      "correctAnswer": "b"
-    },
-    {
-      "question": "Graphical intersection of two lines in 2D gives:",
-      "answers": {
-        "a": "Solution to the system",
-        "b": "Length of vector",
-        "c": "Matrix determinant",
-        "d": "Derivative of equations"
-      },
-      "correctAnswer": "a"
-    },
-    {
-      "question": "Gaussian Elimination is mostly used for:",
-      "answers": {
-        "a": "Finding slopes of lines",
-        "b": "Solving systems of linear equations",
-        "c": "Calculating integrals",
-        "d": "Performing statistical analysis"
       },
       "correctAnswer": "b"
     }
