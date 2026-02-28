@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linear System Solver</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.24.1/plotly.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            max-width: 1350px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #2c3e50;
+            border-radius: 8px;
+            width: 100%;
+            color: #ffffff;
+            padding: 10px;
+            max-width: 1350px;
+            grid-column: 1 / -1;
+        }
+
+        .subtitle {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .input-box, .output-box, .obs-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: 600px;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .equation-row {
+            display: grid;
+            grid-template-columns: repeat(5, auto);
+            gap: 10px;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #3d5166;
+        }
+        
+        .output-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        #result {
+            padding: 15px;
+            background-color: #fcfcfd;
+            border-radius: 6px;
+        }
+        
+        #plot {
+            width: 100%;
+            height: 300px;
+        }
+        
+        #steps {
+            margin-top: 1px;
+        }
+        
+        .step {
+            padding: 8px;
+            margin: 2px 0;
+            background-color: #f8f9fa;
+            border-left: 3px solid #2c3e50;
+        }
+        
+        .error {
+            color: #d32f2f;
+            padding: 10px;
+            background-color: #ffebee;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .examples {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fefeff;
+            border-radius: 6px;
+        }
+
+        .example-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1a237e;
+        }
+
+        .example-equation {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .example-equation:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* ---- Practice Mode ---- */
+        .practice-block {
+            margin-top: 14px;
+            padding: 12px;
+            background-color: #fffffd;
+            border: 2px dashed #fdfdfd;
+            border-radius: 6px;
+        }
+
+        .practice-block h4 {
+            color: #ffffff;
+            margin-bottom: 5px;
+            font-size: 0.88rem;
+        }
+
+        .practice-block p {
+            font-size: 0.76rem;
+            color: #888;
+            margin-bottom: 9px;
+        }
+
+        .practice-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .practice-row label { font-size: 0.85rem; font-weight: bold; }
+
+        .practice-row input[type="number"] {
+            width: 72px;
+            padding: 6px;
+            border: 2px solid #f9a825;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .btn-check {
+            padding: 7px 14px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .btn-check:hover { background-color: #283593; }
+
+        #practice-feedback {
+            margin-top: 7px;
+            font-size: 0.8rem;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .feedback-correct { background-color: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .feedback-wrong   { background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+
+        /* ---- Observation Table ---- */
+        .obs-btn-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .obs-btn-row button {
+            width: auto;
+            padding: 7px 12px;
+            font-size: 0.78rem;
+            margin-top: 0;
+        }
+
+        .btn-log   { background-color: #2c3e50; }
+        .btn-blank { background-color: #2c3e50; }
+        .btn-clear { background-color: #c62828; }
+
+        .obs-table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.74rem;
+        }
+
+        thead th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 7px 5px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) { background-color: #f8f9fa; }
+        tbody tr:hover            { background-color: #eef2ff; }
+
+        tbody td {
+            padding: 4px 4px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        tbody td input[type="text"] {
+            width: 100%;
+            min-width: 42px;
+            padding: 3px 4px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background: transparent;
+            font-size: 0.73rem;
+            text-align: center;
+        }
+
+        tbody td input[type="text"]:focus {
+            outline: none;
+            border-color: #1a237e;
+            background: white;
+        }
+
+        .td-solver  { color: #1a237e; font-weight: bold; font-size: 0.73rem; }
+        .match-yes  { color: #2e7d32; font-weight: bold; }
+        .match-no   { color: #c62828; font-weight: bold; }
+        .match-na   { color: #bbb; }
+
+        .btn-del {
+            padding: 3px 7px;
+            background-color: #e0e0e0;
+            color: #555;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .btn-del:hover { background-color: #ffcdd2; color: #c62828; }
+
+        .no-data-row td {
+            text-align: center;
+            color: #aaa;
+            font-style: italic;
+            padding: 18px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Systems of simultaneous linear equations</h1>
+        
+        <!-- COLUMN 1: INPUT PARAMETERS -->
+        <div class="input-box">
+            <div class="subtitle">Input Parameters</div>
+            
+            <div class="examples">
+                <div class="example-title">Example Equations:</div>
+                <div class="example-equation" onclick="loadExample(0)">
+                    2x + 3y = 7<br>
+                    4x - y = 1
+                </div>
+                <div class="example-equation" onclick="loadExample(1)">
+                    x + y = 4<br>
+                    x - y = 2
+                </div>
+                <div class="example-equation" onclick="loadExample(2)">
+                    3x + 2y = 12<br>
+                    -x + 4y = 8
+                </div>
+            </div>
+
+            <select id="method" onchange="solve()">
+                <option value="gaussian">Gaussian Elimination</option>
+                <option value="jordan">Gauss-Jordan Elimination</option>
+            </select>
+            
+            <div class="equation-row">
+                <input type="number" class="coef" step="any" placeholder="a₁">
+                <span>x +</span>
+                <input type="number" class="coef" step="any" placeholder="b₁">
+                <span>y =</span>
+                <input type="number" class="const" step="any" placeholder="c₁">
+            </div>
+            
+            <div class="equation-row">
+                <input type="number" class="coef" step="any" placeholder="a₂">
+                <span>x +</span>
+                <input type="number" class="coef" step="any" placeholder="b₂">
+                <span>y =</span>
+                <input type="number" class="const" step="any" placeholder="c₂">
+            </div>
+            
+            <button onclick="solve()">Simulate</button>
+
+            <!-- Practice Mode -->
+            <div class="practice-block">
+                <h3><center> First Try  and Check Your Answer Below then Verify By Simulate</h3>
+                <br><p>Enter your answer before checking — mistakes are part of learning!</p>
+                <div class="practice-row">
+                    <label>x =</label>
+                    <input type="number" id="student-x" step="any" placeholder="your x">
+                    <label>y =</label>
+                    <input type="number" id="student-y" step="any" placeholder="your y">
+                    <button class="btn-check" onclick="checkAnswer()">Check</button>
+                </div>
+                <div id="practice-feedback"></div>
+            </div>
+        </div>
+        
+        <!-- COLUMN 2: RESULTS -->
+        <div class="output-box">
+            <div class="subtitle">Results</div>
+            <div class="output-grid">
+                <div id="result"></div>
+                <div id="steps"></div>
+                <div id="plot"></div>
+            </div>
+        </div>
+
+        <!-- COLUMN 3: OBSERVATION TABLE -->
+        <div class="obs-box">
+            <div class="subtitle">Observation Table</div>
+
+            <div class="obs-btn-row">
+                <button class="btn-log"   onclick="logCurrentResult()">Observe Table</button>
+                <button class="btn-clear" onclick="clearTable()">Clear All</button>
+            </div>
+
+            <div class="obs-table-wrap">
+                <table id="obs-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Equation 1</th>
+                            <th>Equation 2</th>
+                            <th>Method</th>
+                            <th>Solver x</th>
+                            <th>Solver y</th>
+                            <th>My x</th>
+                            <th>My y</th>
+                            <th>Match?</th>
+                            <th>Notes</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="obs-body">
+                        <tr class="no-data-row">
+                            <td colspan="11">No entries yet. Solve a system and click "Log Result".</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let lastSolution = null;
+        let lastSystem   = null;
+        let lastMethod   = null;
+        let rowCount     = 0;
+
+        const examples = [
+            { coefficients: [2, 3, 4, -1], constants: [7, 1] },
+            { coefficients: [1, 1, 1, -1], constants: [4, 2] },
+            { coefficients: [3, 2, -1, 4], constants: [12, 8] }
+        ];
+
+        function getInputSystem() {
+            const coefs     = Array.from(document.getElementsByClassName('coef')).map(i => Number(i.value));
+            const constants = Array.from(document.getElementsByClassName('const')).map(i => Number(i.value));
+            return {
+                A: [[coefs[0], coefs[1]], [coefs[2], coefs[3]]],
+                b: [constants[0], constants[1]]
+            };
+        }
+
+        function validateInput(A, b) {
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 2; j++) { if (isNaN(A[i][j])) return false; }
+                if (isNaN(b[i])) return false;
+            }
+            return true;
+        }
+
+        function gaussianElimination(A, b) {
+            const n = A.length;
+            const augmented = A.map((row, i) => [...row, b[i]]);
+            const steps = [];
+            for (let i = 0; i < n; i++) {
+                if (Math.abs(augmented[i][i]) < 1e-10) throw new Error("Zero pivot encountered. System may have no unique solution.");
+                steps.push(`Pivot element: ${augmented[i][i].toFixed(4)}`);
+                for (let j = i + 1; j < n; j++) {
+                    const factor = augmented[j][i] / augmented[i][i];
+                    steps.push(`R${j+1} = R${j+1} - ${factor.toFixed(4)} × R${i+1}`);
+                    for (let k = i; k <= n; k++) augmented[j][k] -= factor * augmented[i][k];
+                }
+            }
+            const x = new Array(n);
+            for (let i = n - 1; i >= 0; i--) {
+                x[i] = augmented[i][n];
+                for (let j = i + 1; j < n; j++) x[i] -= augmented[i][j] * x[j];
+                x[i] /= augmented[i][i];
+                steps.push(`x${n - i} = ${x[i].toFixed(4)}`);
+            }
+            return { solution: x, steps };
+        }
+
+        function gaussJordan(A, b) {
+            const n = A.length;
+            const augmented = A.map((row, i) => [...row, b[i]]);
+            const steps = [];
+            for (let i = 0; i < n; i++) {
+                if (Math.abs(augmented[i][i]) < 1e-10) throw new Error("Zero pivot encountered. System may have no unique solution.");
+                const divisor = augmented[i][i];
+                for (let j = i; j <= n; j++) augmented[i][j] /= divisor;
+                steps.push(`R${i+1} = R${i+1} ÷ ${divisor.toFixed(4)}`);
+                for (let j = 0; j < n; j++) {
+                    if (i !== j) {
+                        const factor = augmented[j][i];
+                        for (let k = i; k <= n; k++) augmented[j][k] -= factor * augmented[i][k];
+                        steps.push(`R${j+1} = R${j+1} - ${factor.toFixed(4)} × R${i+1}`);
+                    }
+                }
+            }
+            return { solution: [augmented[0][n], augmented[1][n]], steps };
+        }
+
+        function loadExample(index) {
+            const ex = examples[index];
+            const coefInputs  = document.getElementsByClassName('coef');
+            const constInputs = document.getElementsByClassName('const');
+            for (let i = 0; i < coefInputs.length;  i++) coefInputs[i].value  = ex.coefficients[i];
+            for (let i = 0; i < constInputs.length; i++) constInputs[i].value = ex.constants[i];
+            solve();
+        }
+
+        function displayResults(solution, steps) {
+            document.getElementById('result').innerHTML = `
+                <h3>Solution:</h3>
+                <p>x = ${solution[0].toFixed(4)}</p>
+                <p>y = ${solution[1].toFixed(4)}</p>
+            `;
+            const stepsHTML = steps.map((step, index) =>
+                `<div class="step">Step ${index + 1}: ${step}</div>`
+            ).join('');
+            document.getElementById('steps').innerHTML = `<h3>Solution Steps:</h3>${stepsHTML}`;
+        }
+
+        function plotSystem(A, b, solution) {
+            const x  = [-10, 10];
+            const y1 = x.map(xi => (b[0] - A[0][0] * xi) / A[0][1]);
+            const y2 = x.map(xi => (b[1] - A[1][0] * xi) / A[1][1]);
+            const data = [
+                { x, y: y1, name: 'Equation 1', type: 'scatter', mode: 'lines' },
+                { x, y: y2, name: 'Equation 2', type: 'scatter', mode: 'lines' },
+                { x: [solution[0]], y: [solution[1]], mode: 'markers', name: 'Solution', marker: { size: 10, color: 'red' } }
+            ];
+            const layout = {
+                title: 'System of Equations',
+                xaxis: { title: 'x', fixedrange: true },
+                yaxis: { title: 'y', fixedrange: true },
+                height: 300,
+                margin: { t: 30, b: 40, l: 40, r: 40 },
+                showlegend: true
+            };
+            Plotly.newPlot('plot', data, layout, { displayModeBar: false, responsive: true });
+        }
+
+        function solve() {
+            const { A, b } = getInputSystem();
+            const method   = document.getElementById('method').value;
+            if (!validateInput(A, b)) {
+                document.getElementById('result').innerHTML = '<div class="error">Please fill in all fields with valid numbers</div>';
+                return;
+            }
+            try {
+                const result = method === 'gaussian' ? gaussianElimination(A, b) : gaussJordan(A, b);
+                lastSolution = result.solution;
+                lastSystem   = { A, b };
+                lastMethod   = method;
+                displayResults(result.solution, result.steps);
+                plotSystem(A, b, result.solution);
+                // reset practice area for new problem
+                document.getElementById('student-x').value = '';
+                document.getElementById('student-y').value = '';
+                document.getElementById('practice-feedback').style.display = 'none';
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<div class="error">${error.message}</div>`;
+                lastSolution = null;
+            }
+        }
+
+        /* ---- Practice Mode ---- */
+        function checkAnswer() {
+            const fb = document.getElementById('practice-feedback');
+            if (!lastSolution) {
+                fb.textContent = '⚠ Please solve a system first!';
+                fb.className = 'feedback-wrong'; fb.style.display = 'block'; return;
+            }
+            const sx = parseFloat(document.getElementById('student-x').value);
+            const sy = parseFloat(document.getElementById('student-y').value);
+            if (isNaN(sx) || isNaN(sy)) {
+                fb.textContent = '⚠ Please enter values for both x and y.';
+                fb.className = 'feedback-wrong'; fb.style.display = 'block'; return;
+            }
+            const tol = 0.01;
+            const xOk = Math.abs(sx - lastSolution[0]) <= tol;
+            const yOk = Math.abs(sy - lastSolution[1]) <= tol;
+            if (xOk && yOk) {
+                fb.textContent = `✓ Correct! x = ${lastSolution[0].toFixed(4)}, y = ${lastSolution[1].toFixed(4)}`;
+                fb.className = 'feedback-correct';
+            } else {
+                let msg = '✗ Not quite. ';
+                if (!xOk) msg += `x should be ${lastSolution[0].toFixed(4)}. `;
+                if (!yOk) msg += `y should be ${lastSolution[1].toFixed(4)}.`;
+                fb.textContent = msg;
+                fb.className = 'feedback-wrong';
+            }
+            fb.style.display = 'block';
+        }
+
+        /* ---- Observation Table ---- */
+        function removeNoDataRow() {
+            const r = document.querySelector('.no-data-row');
+            if (r) r.remove();
+        }
+
+        function updateMatch(tr) {
+            const sx  = parseFloat(tr.querySelector('.sx').value);
+            const sy  = parseFloat(tr.querySelector('.sy').value);
+            const svx = parseFloat(tr.dataset.svx);
+            const svy = parseFloat(tr.dataset.svy);
+            const td  = tr.querySelector('.match-td');
+            if (isNaN(sx) || isNaN(sy) || isNaN(svx) || isNaN(svy)) {
+                td.innerHTML = '<span class="match-na">—</span>'; return;
+            }
+            const ok = Math.abs(sx - svx) <= 0.01 && Math.abs(sy - svy) <= 0.01;
+            td.innerHTML = ok
+                ? '<span class="match-yes">✓ Yes</span>'
+                : '<span class="match-no">✗ No</span>';
+        }
+
+        function buildRow(d) {
+            rowCount++;
+            removeNoDataRow();
+            const tbody = document.getElementById('obs-body');
+            const tr = document.createElement('tr');
+            tr.dataset.svx = d.svx !== undefined ? d.svx : '';
+            tr.dataset.svy = d.svy !== undefined ? d.svy : '';
+
+            const textTd = (val, cls) => {
+                const td = document.createElement('td');
+                if (cls) td.className = cls;
+                td.textContent = val !== undefined ? val : '—';
+                return td;
+            };
+
+            const inputTd = (val, cls) => {
+                const td  = document.createElement('td');
+                const inp = document.createElement('input');
+                inp.type  = 'text';
+                inp.value = val !== undefined ? val : '';
+                if (cls) inp.className = cls;
+                td.appendChild(inp);
+                return { td, inp };
+            };
+
+            // # (row number)
+            tr.appendChild(textTd(rowCount));
+            // Equation 1 & 2
+            tr.appendChild(textTd(d.eq1 || ''));
+            tr.appendChild(textTd(d.eq2 || ''));
+            // Method
+            tr.appendChild(textTd(d.method || ''));
+            // Solver x, y (read-only display)
+            tr.appendChild(textTd(d.svx !== undefined && d.svx !== '' ? Number(d.svx).toFixed(4) : '—', 'td-solver'));
+            tr.appendChild(textTd(d.svy !== undefined && d.svy !== '' ? Number(d.svy).toFixed(4) : '—', 'td-solver'));
+
+            // My x (editable)
+            const { td: sxTd, inp: sxInp } = inputTd(d.sx !== undefined ? d.sx : '', 'sx');
+            sxInp.addEventListener('input', () => updateMatch(tr));
+            tr.appendChild(sxTd);
+
+            // My y (editable)
+            const { td: syTd, inp: syInp } = inputTd(d.sy !== undefined ? d.sy : '', 'sy');
+            syInp.addEventListener('input', () => updateMatch(tr));
+            tr.appendChild(syTd);
+
+            // Match cell
+            const matchTd = document.createElement('td');
+            matchTd.className = 'match-td';
+            matchTd.innerHTML = '<span class="match-na">—</span>';
+            tr.appendChild(matchTd);
+
+            // Notes (editable)
+            const { td: noteTd } = inputTd(d.notes || '');
+            noteTd.querySelector('input').style.minWidth = '80px';
+            tr.appendChild(noteTd);
+
+            // Delete button
+            const delTd  = document.createElement('td');
+            const delBtn = document.createElement('button');
+            delBtn.className = 'btn-del';
+            delBtn.textContent = '✕';
+            delBtn.onclick = () => {
+                tr.remove();
+                if (!document.getElementById('obs-body').children.length) addNoDataRow();
+            };
+            delTd.appendChild(delBtn);
+            tr.appendChild(delTd);
+
+            tbody.appendChild(tr);
+            if (d.sx !== undefined && d.sx !== '') updateMatch(tr);
+        }
+
+        function addNoDataRow() {
+            const tr = document.createElement('tr');
+            tr.className = 'no-data-row';
+            tr.innerHTML = '<td colspan="11">No entries yet. Solve a system and click "Log Result".</td>';
+            document.getElementById('obs-body').appendChild(tr);
+        }
+
+        function fmtEq(a, b, c) {
+            return `${a}x + ${b}y = ${c}`;
+        }
+
+        function logCurrentResult() {
+            if (!lastSolution || !lastSystem) { alert('Please solve a system first.'); return; }
+            const A  = lastSystem.A, b = lastSystem.b;
+            const sx = parseFloat(document.getElementById('student-x').value);
+            const sy = parseFloat(document.getElementById('student-y').value);
+            buildRow({
+                eq1:    fmtEq(A[0][0], A[0][1], b[0]),
+                eq2:    fmtEq(A[1][0], A[1][1], b[1]),
+                method: lastMethod === 'gaussian' ? 'Gaussian' : 'Gauss-Jordan',
+                svx:    lastSolution[0],
+                svy:    lastSolution[1],
+                sx:     isNaN(sx) ? '' : sx,
+                sy:     isNaN(sy) ? '' : sy
+            });
+        }
+
+        function addBlankRow() { buildRow({}); }
+
+        function clearTable() {
+            if (!confirm('Clear all observation entries?')) return;
+            document.getElementById('obs-body').innerHTML = '';
+            rowCount = 0;
+            addNoDataRow();
+        }
+    </script>
+<script src="../assets/js/iframeResize.js"></script>
+        
+        </body>
+</html>
